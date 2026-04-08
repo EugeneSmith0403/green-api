@@ -1,0 +1,15 @@
+providers = ["go", "node"]
+
+[phases.install]
+cmds = ["npm --prefix frontend ci"]
+
+[phases.build]
+cmds = [
+  "npm --prefix frontend run build",
+  "go install github.com/swaggo/swag/cmd/swag@latest",
+  "export PATH=$PATH:$(go env GOPATH)/bin && swag init -g cmd/server/main.go -o docs",
+  "CGO_ENABLED=0 GOOS=linux go build -o bin/server ./cmd/server",
+]
+
+[start]
+cmd = "bin/server"

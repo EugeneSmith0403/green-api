@@ -1,0 +1,194 @@
+basePath: /
+definitions:
+  handler.APIResponse:
+    properties:
+      action:
+        type: string
+      data:
+        type: object
+      error:
+        type: string
+      raw:
+        type: string
+      success:
+        type: boolean
+    type: object
+  handler.SendFileRequest:
+    properties:
+      caption:
+        type: string
+      chatId:
+        type: string
+      fileName:
+        type: string
+      urlFile:
+        type: string
+    required:
+    - chatId
+    - urlFile
+    type: object
+  handler.SendMessageRequest:
+    properties:
+      chatId:
+        type: string
+      message:
+        type: string
+    required:
+    - chatId
+    - message
+    type: object
+info:
+  contact: {}
+  description: Proxy server for GREEN-API WhatsApp methods.
+  title: GREEN-API Integration
+  version: "1.0"
+paths:
+  /api/green/instance/{idInstance}/send-file/{apiToken}:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Instance ID
+        in: path
+        name: idInstance
+        required: true
+        type: string
+      - description: API token
+        in: path
+        name: apiToken
+        required: true
+        type: string
+      - description: File payload
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handler.SendFileRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.APIResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.APIResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.APIResponse'
+        "502":
+          description: Bad Gateway
+          schema:
+            $ref: '#/definitions/handler.APIResponse'
+      summary: Send a file by URL
+      tags:
+      - green-api
+  /api/green/instance/{idInstance}/send-message/{apiToken}:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Instance ID
+        in: path
+        name: idInstance
+        required: true
+        type: string
+      - description: API token
+        in: path
+        name: apiToken
+        required: true
+        type: string
+      - description: Message payload
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handler.SendMessageRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.APIResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.APIResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.APIResponse'
+        "502":
+          description: Bad Gateway
+          schema:
+            $ref: '#/definitions/handler.APIResponse'
+      summary: Send a text message
+      tags:
+      - green-api
+  /api/green/instance/{idInstance}/settings/{apiToken}:
+    get:
+      parameters:
+      - description: Instance ID
+        in: path
+        name: idInstance
+        required: true
+        type: string
+      - description: API token
+        in: path
+        name: apiToken
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.APIResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.APIResponse'
+        "502":
+          description: Bad Gateway
+          schema:
+            $ref: '#/definitions/handler.APIResponse'
+      summary: Get instance settings
+      tags:
+      - green-api
+  /api/green/instance/{idInstance}/state/{apiToken}:
+    get:
+      parameters:
+      - description: Instance ID
+        in: path
+        name: idInstance
+        required: true
+        type: string
+      - description: API token
+        in: path
+        name: apiToken
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.APIResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.APIResponse'
+        "502":
+          description: Bad Gateway
+          schema:
+            $ref: '#/definitions/handler.APIResponse'
+      summary: Get instance state
+      tags:
+      - green-api
+swagger: "2.0"
